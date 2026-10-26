@@ -21,19 +21,5 @@ export interface TableAction {
   styleUrl: './app-list-view.component.scss'
 })
 export class AppListViewComponent {
-  @Input() metadata = new MetaData();
-  @Input() items: IndentItem[] = [];
-  @Output() tableAction = new EventEmitter<TableAction>();
-
-  get visibleFields(): Fields[] {
-    return this.metadata.fields.filter(field => field.visible);
-  }
-
-  getValue(item: IndentItem, field: Fields): string | number | undefined {
-    return item[field.fieldName as keyof IndentItem];
-  }
-
-  onAction(type: TableAction['type'], id: number): void {
-    this.tableAction.emit({ type, id });
-  }
+  
 }
