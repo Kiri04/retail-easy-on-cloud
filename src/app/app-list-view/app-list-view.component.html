@@ -1,0 +1,28 @@
+<h1>{{ metadata.title }}</h1>
+<table>
+  <thead>
+    <tr>
+      @for (field of visibleFields; track field.fieldName) {
+        <th scope="col" [style.width.%]="field.columnWidth">{{ field.fieldLabel }}</th>
+      }
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of items; track item.id) {
+      <tr>
+        @for (field of visibleFields; track field.fieldName) {
+          <td>{{ getValue(item, field) }}</td>
+        }
+        <td>
+          <button type="button" (click)="onAction('toggle', item.id)">
+            {{ item.status === 'Pending' ? 'Approve' : 'Mark pending' }}
+          </button>
+          <button type="button" (click)="onAction('delete', item.id)">Delete</button>
+        </td>
+      </tr>
+    } @empty {
+      <tr><td [attr.colspan]="visibleFields.length + 1">No items found.</td></tr>
+    }
+  </tbody>
+</table>
