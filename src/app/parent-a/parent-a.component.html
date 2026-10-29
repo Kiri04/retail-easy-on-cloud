@@ -1,0 +1,110 @@
+<main class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+      <h1 class="mb-4">Parent A</h1>
+
+      <nav class="nav nav-tabs mb-4" aria-label="Counter examples">
+        <button class="nav-link" type="button" [class.active]="activeSection === 'signals'" [attr.aria-current]="activeSection === 'signals' ? 'page' : null" (click)="activeSection = 'signals'">Signals</button>
+        <button class="nav-link" type="button" [class.active]="activeSection === 'rxjs'" [attr.aria-current]="activeSection === 'rxjs' ? 'page' : null" (click)="activeSection = 'rxjs'">RxJS BehaviorSubject</button>
+        <button class="nav-link" type="button" [class.active]="activeSection === 'service'" [attr.aria-current]="activeSection === 'service' ? 'page' : null" (click)="activeSection = 'service'">Plain service</button>
+      </nav>
+
+      @if (activeSection === 'signals') {
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <label for="counter-label" class="form-label">Counter label</label>
+          <input
+            id="counter-label"
+            class="form-control mb-3"
+            type="text"
+            [value]="label()"
+            (input)="updateLabel($event)"
+          />
+          <div class="d-flex align-items-center justify-content-between gap-3">
+            <p class="fs-4 mb-0">{{ label() }}: <span class="badge bg-primary">{{ count() }}</span></p>
+            <button class="btn btn-outline-secondary" type="button" (click)="reset()">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          @defer (on viewport) {
+            <app-child-b mode="signals" [count]="count()" [label]="label()" (increment)="increment()" />
+          } @placeholder {
+            <div class="card card-body text-muted">Loading Child B...</div>
+          }
+        </div>
+        <div class="col-12 col-md-6">
+          @defer (on viewport) {
+            <app-child-c mode="signals" [count]="count()" [label]="label()" (decrement)="decrement()" />
+          } @placeholder {
+            <div class="card card-body text-muted">Loading Child C...</div>
+          }
+        </div>
+      </div>
+      } @else if (activeSection === 'rxjs') {
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <label for="rxjs-counter-label" class="form-label">RxJS counter label</label>
+            <input id="rxjs-counter-label" class="form-control mb-3" type="text" [value]="(rxjsLabel$ | async) ?? ''" (input)="updateRxjsLabel($event)" />
+            <div class="d-flex align-items-center justify-content-between gap-3">
+              <p class="fs-4 mb-0">{{ rxjsLabel$ | async }}: <span class="badge bg-primary">{{ rxjsCount$ | async }}</span></p>
+              <button class="btn btn-outline-secondary" type="button" (click)="resetRxjs()">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            @defer (on viewport) {
+              <app-child-b mode="rxjs" [rxjsCount$]="rxjsCount$" [rxjsLabel$]="rxjsLabel$" (rxjsIncrement)="incrementRxjs()" />
+            } @placeholder {
+              <div class="card card-body text-muted">Loading Child B...</div>
+            }
+          </div>
+          <div class="col-12 col-md-6">
+            @defer (on viewport) {
+              <app-child-c mode="rxjs" [rxjsCount$]="rxjsCount$" [rxjsLabel$]="rxjsLabel$" (rxjsDecrement)="decrementRxjs()" />
+            } @placeholder {
+              <div class="card card-body text-muted">Loading Child C...</div>
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="alert alert-info" role="note">
+          This service stores plain values. Its changes do not notify components; this example copies values into the view with Refresh view.
+        </div>
+        <div class="card shadow-sm mb-4">
+          <div class="card-body">
+            <label for="service-counter-label" class="form-label">Service counter label</label>
+            <input id="service-counter-label" class="form-control mb-3" type="text" [value]="serviceLabel" (input)="updateServiceLabel($event)" />
+            <p class="fs-4">{{ serviceLabel }}: <span class="badge bg-primary">{{ serviceCount }}</span></p>
+            <div class="d-flex flex-wrap gap-2">
+              <button class="btn btn-outline-secondary" type="button" (click)="resetService()">Reset</button>
+              <button class="btn btn-outline-primary" type="button" (click)="updateServiceWithoutRefresh()">Update service only (+1)</button>
+              <button class="btn btn-primary" type="button" (click)="refreshServiceView()">Refresh view</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            @defer (on viewport) {
+              <app-child-b mode="service" [count]="serviceCount" [label]="serviceLabel" (serviceIncrement)="incrementService()" />
+            } @placeholder {
+              <div class="card card-body text-muted">Loading Child B...</div>
+            }
+          </div>
+          <div class="col-12 col-md-6">
+            @defer (on viewport) {
+              <app-child-c mode="service" [count]="serviceCount" [label]="serviceLabel" (serviceDecrement)="decrementService()" />
+            } @placeholder {
+              <div class="card card-body text-muted">Loading Child C...</div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</main>

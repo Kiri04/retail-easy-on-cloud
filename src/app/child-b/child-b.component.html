@@ -1,0 +1,15 @@
+<section class="card h-100 shadow-sm">
+  <div class="card-body d-flex flex-column">
+    <h2 class="h5 card-title">Child B</h2>
+    @if (mode === 'signals') {
+      <p class="card-text">{{ label }}: <span class="badge bg-primary">{{ count }}</span></p>
+      <button class="btn btn-success mt-auto" type="button" (click)="increment.emit()">Add 1</button>
+    } @else if (mode === 'rxjs') {
+      <p class="card-text">{{ rxjsLabel$ | async }}: <span class="badge bg-primary">{{ rxjsCount$ | async }}</span></p>
+      <button class="btn btn-success mt-auto" type="button" (click)="rxjsIncrement.emit()">Add 1</button>
+    } @else {
+      <p class="card-text">{{ label }}: <span class="badge bg-primary">{{ count }}</span></p>
+      <button class="btn btn-success mt-auto" type="button" (click)="serviceIncrement.emit()">Add 1 via service</button>
+    }
+  </div>
+</section>
