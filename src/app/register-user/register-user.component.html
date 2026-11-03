@@ -1,0 +1,28 @@
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light p-3">
+    <div id="card" class="card shadow-sm border-0 w-100" style="max-width: 450px;">
+        <div id="card-body" class="card-body p-4">
+            <h2 class="text-center mb-4">Register </h2>
+            <ngb-alert *ngIf="message" [type]="alertType" (closed)="message = ''">
+                {{ message }}
+            </ngb-alert>
+            <form (ngSubmit)="register(registerNgForm)" #registerNgForm="ngForm">
+                <input class="form-control mb-3" name="email" type="email" email [(ngModel)]="registerForm.email"
+                    placeholder="Email" required>
+
+                <input class="form-control mb-3" name="password" type="password" [(ngModel)]="registerForm.password"
+                    placeholder="Password" required>
+
+                <input class="form-control mb-3" name="retypePassword" type="password"
+                    [(ngModel)]="registerForm.retypePassword" placeholder="RetypePassword" required="">
+
+                <button class="btn btn-primary w-100" type="submit" [disabled]="isSubmitting">
+                    <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                    {{ isSubmitting ? 'Registering...' : 'Register' }}
+                </button>
+            </form>
+            <p class="text-center mt-4 mb-0">
+                Already have an account? <a href="/login-page">Login</a>
+            </p>
+        </div>
+    </div>
+</div>
