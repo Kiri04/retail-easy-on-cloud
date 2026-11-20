@@ -1,0 +1,112 @@
+
+<main class="daily-calories-page">
+  <div class="daily-calories-container">
+
+    <!-- Header -->
+    <section class="header-section">
+      <div>
+        <h1>Daily Calories</h1>
+        <p>
+          Track your daily calorie intake and maintain
+          a healthy lifestyle.
+        </p>
+      </div>
+
+      <button mat-flat-button class="add-food-btn">
+        <mat-icon>add</mat-icon>
+        Add Food
+      </button>
+    </section>
+
+    <!-- Date Navigation -->
+    <section class="button-section">
+      <div class="date-actions">
+        <button
+          mat-button
+          [class.active]="selectedDay === 'yesterday'"
+          (click)="selectedDay = 'yesterday'">
+          Yesterday
+        </button>
+
+        <button
+          mat-button
+          [class.active]="selectedDay === 'today'"
+          (click)="selectedDay = 'today'">
+          Today
+        </button>
+      </div>
+
+      <span class="selected-date">
+        {{ today | date:'dd MMM yyyy' }}
+      </span>
+    </section>
+
+    <!-- Calorie Summary -->
+    <section class="calorie-summary">
+      @for (item of calorieSummary; track item.label) {
+        <mat-card class="summary-card">
+          <mat-card-content>
+            <span class="card-label">{{ item.label }}</span>
+            <div class="card-value">
+              {{ item.value | number }}
+              <small>kcal</small>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </section>
+
+    <!-- Macronutrients -->
+    <section class="macro-nutrients">
+      <mat-card>
+        <mat-card-content>
+          <h2>Macronutrients</h2>
+
+          <div class="macro-grid">
+            @for (macro of macros; track macro.name) {
+              <div class="macro-item">
+                <div class="macro-info">
+                  <span>{{ macro.name }}</span>
+                  <strong>{{ macro.value }} g</strong>
+                </div>
+
+                <mat-progress-bar
+                  mode="determinate"
+                  [value]="macro.progress">
+                </mat-progress-bar>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+    <!-- Food List -->
+    <section class="food-list">
+      <mat-card>
+        <mat-card-content>
+          <div class="food-header">
+            <h2>Today's Food</h2>
+            <span>{{ foodItems.length }} meals</span>
+          </div>
+
+          @for (food of foodItems; track food.meal) {
+            <div class="food-item">
+              <div>
+                <strong>{{ food.meal }}</strong>
+                <p>{{ food.description }}</p>
+              </div>
+
+              <span>{{ food.calories }} kcal</span>
+            </div>
+          }
+          <div class="food-footer d-flex justify-content-between align-items-end mt-3">
+            <strong>Total Calories:</strong>
+            <span>{{ totalCaloriesConsumed() }} kcal</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+
+  </div>
+</main>

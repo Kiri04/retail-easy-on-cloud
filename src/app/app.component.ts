@@ -1,5 +1,5 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -10,6 +10,8 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  readonly router = inject(Router);
+  rootUpdates = 0;
   title = 'retail-easy-on-cloud';
   // metaData: any = new metaData();
 }

@@ -10,4 +10,8 @@ export const routes: Routes = [
     path:'register-user',
     loadComponent : () => import('./register-user/register-user.component').then(m => m.RegisterUserComponent)
   },
+  {
+    path:'daily-calories',
+    loadComponent: () => import('./daily-calories/daily-calories.component').then(m => m.DailyCaloriesComponent)
+  }
 ];
